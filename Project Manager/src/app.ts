@@ -97,14 +97,14 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
         // content that needs to be added - here 'firstElementChild' returns '<form>' inside 'project-input'
         this.element = document.importNode(this.templateElement.content, true).firstElementChild as U;
         if (newElementId)
-            this.element.id = templateId;
+            this.element.id = newElementId;
 
         // attach the '<form>'/hostElement content inside hostElement
         this.attach(insertAtStart);
     }
 
     attach(insertAtStart: boolean) {
-        this.hostElement.insertAdjacentElement(insertAtStart ? 'afterbegin' : 'beforebegin', this.element);
+        this.hostElement.insertAdjacentElement(insertAtStart ? 'afterbegin' : 'beforeend', this.element);
     }
 
     abstract configure(): void;
@@ -134,7 +134,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
             this.renderProjects();
         })
     }
-    
+
     renderContent() {
         this.element.querySelector('ul')!.id = `${this.type}-project-list`;
         this.element.querySelector('h2')!.textContent = `${this.type.toUpperCase()} PROJECTS`
@@ -149,8 +149,6 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
             listEl.appendChild(listItem);
         }
     }
-
-
 
 }
 
